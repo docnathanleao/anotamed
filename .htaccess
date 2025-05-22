@@ -1,0 +1,14 @@
+RewriteEngine On
+RewriteBase /
+
+# Regra para password_entry.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !^/(login\.php|register\.php|auth\.php|register_process\.php|includes/|css/|js/|images/|api/|password_entry\.php|index\.php|logout\.php|dashboard_content\.php) [NC]
+RewriteCond %{REQUEST_URI} !^/$
+RewriteRule ^([a-zA-Z0-9_.-]+)/?$ password_entry.php?username=$1 [L,QSA]
+
+# Regra para index.php (raiz) - Opcional para este teste, pode remover se ainda der erro
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^$ index.php [L]

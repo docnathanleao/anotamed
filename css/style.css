@@ -1,0 +1,373 @@
+/* Reset básico e fontes */
+*{
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+body {
+    font-family: Open Sans, monospace, Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.5;
+    background-color: #f8f9fa; /* Será sobrescrito pelo password_entry.php */
+    color: #333;
+    display: flex; /* Será sobrescrito pelo password_entry.php */
+    flex-direction: column; /* Será sobrescrito pelo password_entry.php */
+    min-height: 100vh; /* Consistente com password_entry.php */
+    font-size: 0.97rem;
+    margin: 0px; /* Consistente com password_entry.php */
+    position: relative; /* Pode ser útil para o footer */
+}
+/* Footer posicionado no canto INFERIOR direito */
+.site-footer-bottom-right {
+position: fixed;
+bottom: 8px;
+right: 12px;
+font-size: 0.78em;
+font-style: italic;
+color: #b0b0b0;
+text-align: right;
+z-index: 1000;
+}
+.site-footer-bottom-right a {
+color: #999;
+text-decoration: none;
+font-weight: normal;
+}
+.site-footer-bottom-right a:hover {
+color: #777;
+text-decoration: underline;
+}
+
+.main-header {
+background-color: #007bff; / Cor principal do seu header /
+color: white;
+padding: 0 15px;
+box-shadow: 0 2px 4px rgba(0,0,0,0.1); / Sombra um pouco mais suave /
+flex-shrink: 0;
+display: flex;
+align-items: center;
+justify-content: space-between;
+position: sticky;
+top: 0;
+z-index: 990;
+min-height: 50px; / Ou a altura que você definiu */}
+
+.main-header .logo-container {
+display: flex;
+align-items: center;
+gap: 8px;
+/* flex-shrink: 0; Opcional, para não encolher */
+}
+.main-header .logo-image { height: 30px; width: auto; }
+.main-header .logo-text { font-family: 'Roboto', sans-serif; font-size: 1.15em; font-weight: 600; color: white; line-height: 1; }
+.user-info {
+display: flex;
+align-items: center;
+color: white;
+margin-left: auto; /* Empurra o user-info para a direita, após as abas /
+
+flex-shrink: 0; / Para não encolher */
+}
+.user-info span { margin-right: 10px; font-size: 0.85em; white-space: nowrap; }
+.user-info i { margin-right: 4px; }
+.btn-logout { background-color: #dc3545; color: white; padding: 3px 8px; border: none; border-radius: 3px; text-decoration: none; font-size: 0.75em; cursor: pointer; transition: background-color 0.3s ease; display: inline-flex; align-items: center; gap: 4px; }
+.btn-logout:hover { background-color: #c82333; }
+
+.tab-nav {
+display: flex;
+flex-grow: 1; 
+justify-content: center; 
+align-items: stretch;
+margin: 0 20px; 
+overflow-x: auto; 
+scrollbar-width: none; 
+-ms-overflow-style: none;  
+}
+
+
+.tab-link {
+font-family: 'Open Sans', sans-serif;
+font-weight: 500;
+font-size: 0.9em;
+color: rgba(255, 255, 255, 0.75);
+text-decoration: none;
+padding: 0 18px 5px 18px;
+display: inline-flex;
+align-items: center;
+gap: 7px;
+border: none;
+background-color: transparent;
+cursor: pointer;
+position: relative;
+transition: color 0.25s ease, background-color 0.25s ease;
+white-space: nowrap;
+outline: none;
+height: 100%;
+}
+.tab-link::after {
+content: '';
+position: absolute;
+bottom: 0px; 
+left: 50%;
+transform: translateX(-50%);
+width: 0;
+height: 3px;
+background-color: #f7d168;
+border-radius: 2px;
+transition: width 0.25s ease, background-color 0.25s ease; 
+}
+.tab-link:hover,
+.tab-link:focus {
+color: #ffffff;
+background-color: rgba(255, 255, 255, 0.08);
+}
+.tab-link:hover::after {
+width: 60%;
+}
+.tab-link.active {
+color: #ffffff;
+font-weight: 600;
+}
+.tab-link.active::after {
+width: 80%;
+/* Opcional: Mudar a cor da linha para a aba ativa se quiser mais destaque /
+/ background-color: #f0ad4e;  Exemplo com cor laranja */
+}
+.tab-link i.fas {
+font-size: 1em;
+line-height: 1;
+margin-bottom: -1px;
+}
+/* Container das Abas (conteúdo) */
+.tab-container {
+width: 96%;
+max-width: 1350px;
+margin: 0 auto 15px auto;
+background-color: #ffffff;
+border-radius: 6px;
+box-shadow: 0 3px 10px rgba(0, 0, 0, 0.07);
+overflow: visible;
+display: flex;
+flex-direction: column;
+flex-grow: 1;
+}
+.tab-content-wrapper {
+padding: 0;
+background-color: #fff;
+display: flex;
+flex-direction: column;
+flex-grow: 1;
+border-radius: 0 0 6px 6px;
+}
+.tab-content {
+display: none;
+animation: fadeIn 0.3s ease-in-out;
+flex-direction: column;
+flex-grow: 1;
+}
+.tab-content.active {
+display: flex;
+}
+.tab-content h2 {
+color: #0056b3; margin-bottom: 12px; border-bottom: 1px solid #e9ecef;
+padding: 12px;
+font-size: 1.4em; display: flex; align-items: center; gap: 8px; flex-shrink: 0;
+}
+/* --- MedNotes Interface --- */
+.mednotes-interface {
+display: flex;
+flex-direction: column;
+border-radius: 0 0 4px 4px;
+overflow: visible;
+background-color: #fff;
+flex-grow: 1;
+}
+.sticky-notes-nav-bars {
+position: sticky;
+/* 'top' será definido pelo JavaScript */
+background-color: #fff;
+z-index: 980;
+border-bottom: 1px solid #dee2e6;
+box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+width: 100%;
+}
+.category-nav {
+display: flex; align-items: center; padding: 12px 8px; background-color: #f0f2f5;
+flex-wrap: nowrap; overflow-x: auto; scrollbar-width: thin; scrollbar-color: #ccc #f0f2f5;
+flex-shrink: 0;
+}
+.category-nav::-webkit-scrollbar { height: 4px; }
+.category-nav::-webkit-scrollbar-track { background: #f0f2f5; }
+.category-nav::-webkit-scrollbar-thumb { background-color: #ccc; border-radius: 2px; }
+.category-label { font-size: 0.9em; font-weight: 500; color: #555; margin-right: 6px; white-space: nowrap; }
+.category-tabs-container { display: flex; align-items: center; gap: 4px; }
+.category-tab-button { padding: 4px 8px; font-size: 0.9em; border: 1px solid #c5cdd3; border-radius: 3px; background-color: #fff; color: #333; cursor: pointer; transition: background-color 0.2s, color 0.2s, border-color 0.2s; white-space: nowrap; display: flex; align-items: center; gap: 5px; }
+.category-tab-button:hover { background-color: #e9ecef; border-color: #adb5bd; }
+.category-tab-button.active-category-tab { background-color: #0069d9; color: white; border-color: #005cbf; font-weight: 500; box-shadow: inset 0 1px 2px rgba(0,0,0,0.1); }
+.category-tab-button.active-category-tab:hover { background-color: #005cbf; }
+.category-name-container { flex-grow: 1; overflow: hidden; text-overflow: ellipsis; }
+.category-name-span { display: inline-block; }
+.edit-category-name-input { border: 1px solid #007bff; padding: 2px 4px; font-size: inherit; border-radius: 2px; outline: none; width: auto; min-width: 100px; flex-grow: 1; }
+.category-action-button { background: none; border: none; color: inherit; padding: 1px 2px; font-size: 0.9em; line-height: 1; border-radius: 3px; opacity: 0.7; transition: opacity 0.2s, color 0.2s; }
+.category-action-button:hover { opacity: 1; color: #dc3545; background-color: transparent; box-shadow: none;}
+.category-tab-button.active-category-tab .category-action-button { color: white; opacity: 0.8; }
+.category-tab-button.active-category-tab .category-action-button:hover { opacity: 1; color: #ffdddd; }
+#add-category-btn { padding: 5px 8px; font-size: 0.8em; background-color: #d36d4e; color: white; border: none; border-radius: 3px; margin-left: 4px;  cursor: pointer;}
+#add-category-btn:hover { background-color: #b63b36; }
+#add-category-btn i { margin-right: 0; }
+.notes-tab-nav {
+display: flex; flex-wrap: nowrap; overflow-x: auto; overflow-y: hidden; background-color: #e9ecef;
+padding: 5px 5px 0 5px; align-items: flex-end; scrollbar-width: thin; scrollbar-color: #ccc #e9ecef;
+flex-shrink: 0;
+}
+.notes-tab-nav::-webkit-scrollbar { height: 4px; }
+.notes-tab-nav::-webkit-scrollbar-track { background: #e9ecef; }
+.notes-tab-nav::-webkit-scrollbar-thumb { background-color: #ccc; border-radius: 2px; }
+.notes-tab-nav::-webkit-scrollbar-thumb:hover { background-color: #bbb; }
+.note-tab-button { display: inline-flex; align-items: center; padding: 5px 7px 5px 10px; border: 1px solid #ced4da; border-bottom: none; background: linear-gradient(to bottom, #f8f9fa, #e9ecef); font-size: 0.85em; border-radius: 4px 4px 0 0; margin-right: 2px; color: #495057; position: relative; cursor: pointer; max-width: 160px; min-width: 60px; flex-shrink: 0; transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease; box-shadow: inset 0 1px 0 rgba(255,255,255,0.5); white-space: nowrap; }
+.note-title-container { flex-grow: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-right: 5px; text-align: left; }
+.note-title-span { display: inline-block; }
+.edit-title-input { flex-grow: 1; min-width: 35px; border: 1px solid #007bff; padding: 2px 4px; font-size: inherit; font-family: inherit; line-height: normal; height: auto; color: #333; background-color: #fff; outline: none; box-shadow: 0 0 0 1.5px rgba(0, 123, 255, 0.2); border-radius: 2px; margin-right: 3px; }
+.close-note-btn { background: none; border: none; color: #888; font-size: 0.9em; padding: 2px 3px; line-height: 1; cursor: pointer; border-radius: 50%; transition: color 0.2s ease, background-color 0.2s ease; flex-shrink: 0; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; margin-left: auto; }
+.close-note-btn:hover { color: #dc3545; background-color: rgba(220, 53, 69, 0.1); }
+.close-note-btn i { margin: 0; line-height: 1; }
+.note-tab-button:not(.active-note-tab):hover { background: linear-gradient(to bottom, #ffffff, #f1f3f5); color: #212529; border-color: #ced4da #ced4da #dee2e6; }
+.note-tab-button.active-note-tab { background: #ffffff; color: #007bff; font-weight: 600; border-color: #ced4da #ced4da #ffffff; position: relative; z-index: 2; box-shadow: none; }
+.note-tab-button.active-note-tab::after { content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 1px; background-color: #ffffff; }
+#add-note-tab-btn { background-color: #28a745; color: white; border: none; padding: 5px 8px; border-radius: 3px; transition: background-color 0.3s ease, box-shadow 0.2s ease; font-size: 0.85em; box-shadow: 0 1px 2px rgba(0,0,0,0.1); cursor: pointer; flex-shrink: 0; margin-left: 2px; border-bottom: none; margin-right: 0; margin-bottom: 2px; }
+#add-note-tab-btn:hover { background-color: #218838; box-shadow: 0 1px 4px rgba(0,0,0,0.15); }
+#add-note-tab-btn i { margin-right: 0px; }
+.notes-content-area {
+position: relative;
+background-color: #fff;
+display: flex;
+flex-direction: column;
+flex-grow: 1;
+padding-top: 0px;
+/* padding-top será definido pelo JS */
+}
+.note-editor {
+width: 100%; padding: 15px; border: none;
+font-family: Open Sans, Tahoma, Geneva, Verdana, sans-serif;
+font-size: 0.85rem; line-height: 1.55;
+resize: none; outline: none; background-color: #fff;
+display: none; min-height: 250px; overflow-y: hidden; box-sizing: border-box;
+}
+.note-editor-placeholder {
+position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+display: flex; flex-direction: column; align-items: center; justify-content: center;
+text-align: center; color: #adb5bd; pointer-events: none; padding: 20px;
+}
+.note-editor-placeholder p { font-size: 1em; margin-bottom: 10px; }
+.note-editor-placeholder i { font-size: 3em; color: #ced4da; }
+/* No seu style.css */
+#note-status.status-message.bar-status {
+    display: block; /* ou inline-block se quiser que a largura seja baseada no conteúdo */
+    padding: 6px 12px;
+    font-size: 0.7em;
+    font-style: italic;
+    color: #6c757d;
+    text-align: left; /* Mude para left se for no canto esquerdo */
+    background-color: rgba(128, 128, 128, 0.106);
+    border-radius: 4px 4px 0 0; /* Opcional: bordas arredondadas no topo */
+    box-shadow: 0 -1px 5px rgba(0,0,0,0.1); /* Opcional: uma pequena sombra acima */
+    position: fixed;
+    bottom: 8px;  /* Mesma distância da base que sua assinatura */
+    left: 12px;   /* Distância da esquerda */
+    z-index: 1000; /* Mesmo z-index da sua assinatura, ou um pouco maior/menor se precisar */
+    /* flex-shrink: 0; /* Não é relevante para position:fixed */
+}
+.notes-tab-nav .status-message.inline-status {
+font-size: 0.75em; font-style: italic; margin-left: auto;
+padding: 0 10px; align-self: center; color: #6c757d;
+}
+.status-message.success { color: #198754; font-weight: 500; }
+.status-message.error { color: #dc3545; font-weight: 500; }
+.status-message.info { color: #0dcaf0; font-weight: 500;}
+.status-message.saving { color: #ffc107; font-weight: 500; }
+.status-message.saving::before { content: "\f110"; font-family: "Font Awesome 6 Free"; font-weight: 900; display: inline-block; margin-right: 4px; animation: fa-spin 1.5s infinite linear; }
+@keyframes fa-spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+/* --- Calculadoras --- */
+.calculator-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; margin-top: 15px; padding: 0 12px 12px 12px; }
+.calculator-card { background-color: #ffffff; padding: 15px 20px; border-radius: 6px; box-shadow: 0 2px 10px rgba(0, 80, 150, 0.06); border: 1px solid #e9ecef; transition: transform 0.25s ease, box-shadow 0.25s ease; overflow: hidden; display: flex; flex-direction: column; }
+.calculator-card:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0, 80, 150, 0.09); }
+.calculator-card h3 { color: #0056b3; margin-bottom: 3px; font-size: 1.1em; display: flex; align-items: center; gap: 7px; }
+.calculator-card .card-subtitle { font-size: 0.75em; color: #6c757d; margin-top: 0; margin-bottom: 12px; }
+.calculator-card .form-group { margin-bottom: 12px; }
+.calculator-card label { font-weight: 500; font-size: 0.85em; color: #495057; }
+.calculator-card input[type="number"], .calculator-card input[type="date"], .calculator-card select { background-color: #f8f9fa; border: 1px solid #ced4da; padding: 7px 10px; font-size: 0.85em; width: 100%; }
+.calculator-card input[type="number"]:focus, .calculator-card input[type="date"]:focus, .calculator-card select:focus { border-color: #007bff; box-shadow: 0 0 0 0.15rem rgba(0, 123, 255, 0.2); background-color: #fff; }
+.calculator-card button { font-size: 0.85em; padding: 6px 10px; margin-top: 5px; }
+.calculator-card .result-output { font-size: 0.85em; margin-top: 10px; padding-top: 8px; border-top: 1px dashed #e0e0e0; }
+.calculator-card .result-output strong { color: #0056b3; }
+.calculator-card .result-classification { font-size: 0.8em; margin-top: 3px; }
+/* Drag and Drop Placeholders */
+.drag-over-placeholder-cat, .drag-over-placeholder-note { height: 28px; width: 5px; background-color: #007bff; margin: 0 2px; border-radius: 2px; flex-shrink: 0; align-self: center; }
+.drag-over-placeholder-cat { height: 22px; }
+@keyframes pulse-attention {
+0% {
+transform: scale(1);
+box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7); /* Vermelho do seu botão, com alfa /
+}
+70% {
+transform: scale(1.05);
+box-shadow: 0 0 10px 15px rgba(220, 53, 69, 0); / Sombra expande e some */
+}
+100% {
+transform: scale(1);
+box-shadow: 0 0 0 0 rgba(220, 53, 69, 0);
+}
+}
+@keyframes subtle-glow {
+0% {
+box-shadow: 0 0 3px rgba(255, 100, 100, 0.4);
+}
+50% {
+box-shadow: 0 0 8px rgba(255, 100, 100, 0.8);
+}
+100% {
+box-shadow: 0 0 3px rgba(255, 100, 100, 0.4);
+}
+}
+#add-category-btn {
+padding: 3px 6px;
+font-size: 0.8em;
+background-color: #dc3545; /* SEU BOTÃO VERMELHO /
+color: white;
+border: none;
+border-radius: 3px;
+margin-left: 4px;
+cursor: pointer;
+transition: background-color 0.3s ease, transform 0.2s ease; / Adiciona transição para transform */
+}
+#add-category-btn:hover {
+background-color: #c82333; /* Vermelho mais escuro no hover /
+transform: scale(1.05); / Leve aumento no hover */
+}
+#add-category-btn i {
+margin-right: 0;
+}
+/* Estilo para quando o botão precisa de atenção (piscando/pulsando) */
+#add-category-btn.needs-attention {
+/* Opção 1: Efeito de Pulso com Sombra (mais sutil) */
+animation: subtle-glow 2s infinite ease-in-out;
+}
+/* No seu style.css */
+/* ... (seu CSS existente, incluindo @keyframes pulse-attention e a classe .needs-attention) ... */
+@keyframes shake-button {
+0%, 100% { transform: translateX(0); }
+10%, 30%, 50%, 70%, 90% { transform: translateX(-3px); }
+20%, 40%, 60%, 80% { transform: translateX(3px); }
+}
+@keyframes quick-pulse-button {
+0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.5); } /* Cor base do seu botão */
+50% { transform: scale(1.1); box-shadow: 0 0 8px 10px rgba(220, 53, 69, 0); }
+100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(220, 53, 69, 0); }
+}
+/* Classe para acionar a animação de alerta momentâneo /
+#add-category-btn.alert-animation {
+/ Combina as duas animações ou escolhe uma /
+animation: shake-button 0.5s ease-in-out, quick-pulse-button 0.6s ease-out;
+/ Se quiser apenas uma: /
+/ animation: shake-button 0.5s ease-in-out; /
+/ animation: quick-pulse-button 0.6s ease-out; */

@@ -1,117 +1,109 @@
 <?php
 session_start();
-require_once "includes/db_connect.php";
+require_once "includes/db_connect.php"; // Now uses config.php
 
-$login_source = isset($_POST['login_source']) && $_POST['login_source'] == 'profile_url' ? 'profile' : 'regular';
-$username_for_redirect_on_error = isset($_POST['username']) ? trim($_POST['username']) : '';
+$login_source = isset($_POST["login_source"]) && $_POST["login_source"] == "profile_url" ? "profile" : "regular";
+$username_for_redirect_on_error = isset($_POST["username"]) ? trim($_POST["username"]) : "";
 
-// Limpa erros anteriores com base na origem
-if ($login_source == 'profile') {
+// Determine redirect URL based on login source
+$redirect_url_on_error = "login.php"; // Default redirect
+if ($login_source == "profile" && !empty($username_for_redirect_on_error)) {
+    $redirect_url_on_error = "/" . urlencode($username_for_redirect_on_error); // Redirect to profile URL
+}
+
+// Function to set error message in session and redirect
+function handle_auth_error($message, $log_message = null, $is_profile_source = false, $redirect_url = "login.php") {
+    if ($log_message) {
+        error_log("[Auth Error] User (".($_SESSION["user_id"] ?? "guest")."): " . $log_message);
+    }
+    if ($is_profile_source) {
+        $_SESSION["profile_login_error"] = $message;
+    } else {
+        $_SESSION["login_error"] = $message;
+    }
+    header("location: " . $redirect_url);
+    exit;
+}
+
+// Clear previous errors based on source
+if ($login_source == "profile") {
     unset($_SESSION["profile_login_error"]);
 } else {
     unset($_SESSION["login_error"]);
 }
 
-if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['username']) && isset($_POST['password'])){
-    $username = trim($_POST['username']);
-    $password = trim($_POST['password']);
-    
-    $redirect_url_on_error = "login.php"; // Padrão
-    if ($login_source == 'profile' && !empty($username_for_redirect_on_error)) {
-        $redirect_url_on_error = "/" . urlencode($username_for_redirect_on_error); // Vai para anotamed.com/username
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["username"]) && isset($_POST["password"])) {
+    $username = trim($_POST["username"]);
+    $password = trim($_POST["password"]);
+
+    // Validate input
+    if (empty($username) || empty($password)) {
+        handle_auth_error("Por favor, preencha o usuário e a senha.", null, $login_source == "profile", $redirect_url_on_error);
     }
 
-    if(empty($username) || empty($password)){
-        $error_message = "Por favor, preencha o usuário e a senha.";
-        // ... (resto da lógica de erro como você tinha, usando $_SESSION["profile_login_error"] ou $_SESSION["login_error"]) ...
-        if ($login_source == 'profile') {
-            $_SESSION["profile_login_error"] = $error_message;
-        } else {
-            $_SESSION["login_error"] = $error_message;
-        }
-        header("location: " . $redirect_url_on_error);
-        exit;
-    }
-
+    // Prepare SQL statement
     $sql = "SELECT id, username, password_hash FROM users WHERE username = ?";
-    if($stmt = $mysqli->prepare($sql)){
+    if ($stmt = $mysqli->prepare($sql)) {
         $stmt->bind_param("s", $param_username);
         $param_username = $username;
-        if($stmt->execute()){
+
+        // Execute statement
+        if ($stmt->execute()) {
             $stmt->store_result();
-            if($stmt->num_rows == 1){
+
+            // Check if user exists
+            if ($stmt->num_rows == 1) {
                 $stmt->bind_result($id, $username_db, $hashed_password);
-                if($stmt->fetch()){
-                    if(password_verify($password, $hashed_password)){
-                        session_regenerate_id(true); 
+                if ($stmt->fetch()) {
+                    // Verify password
+                    if (password_verify($password, $hashed_password)) {
+                        // Password is correct, start a new session
+                        session_regenerate_id(true); // Prevent session fixation
                         $_SESSION["loggedin"] = true;
                         $_SESSION["user_id"] = $id;
                         $_SESSION["username"] = $username_db;
+
+                        // Clear any potential error messages from previous attempts
                         unset($_SESSION["login_error"]);
                         unset($_SESSION["profile_login_error"]);
 
-                        // ***** MUDANÇA PRINCIPAL AQUI *****
-                        // Redireciona para a URL do perfil do usuário (anotamed.com/username)
+                        // Redirect to user profile page
                         header("location: /" . urlencode($username_db));
                         exit;
-                    } else{
-                        $error_message = "Senha inválida para o usuário \"".htmlspecialchars($username)."\".";
-                        // ... (resto da lógica de erro de senha) ...
-                        if ($login_source == 'profile') {
-                            $_SESSION["profile_login_error"] = $error_message;
-                        } else {
-                            $_SESSION["login_error"] = "Usuário ou senha inválidos."; 
-                        }
-                        header("location: " . $redirect_url_on_error);
-                        exit;
+                    } else {
+                        // Invalid password
+                        $error_message_user = "Usuário ou senha inválidos.";
+                        $error_message_log = "Invalid password attempt for user: " . $username;
+                        handle_auth_error($error_message_user, $error_message_log, $login_source == "profile", $redirect_url_on_error);
                     }
-                }
-            } else{
-                $error_message = "Usuário \"".htmlspecialchars($username)."\" não encontrado.";
-                // ... (resto da lógica de usuário não encontrado) ...
-                 if ($login_source == 'profile') {
-                    $_SESSION["profile_login_error"] = $error_message; // Mostra erro na página de perfil
                 } else {
-                    $_SESSION["login_error"] = "Usuário ou senha inválidos.";
+                     // Should not happen if num_rows is 1, but handle defensively
+                     handle_auth_error("Ocorreu um erro ao processar suas informações. Tente novamente.", "Failed to fetch user data after successful query for user: " . $username, $login_source == "profile", $redirect_url_on_error);
                 }
-                header("location: " . $redirect_url_on_error);
-                exit;
-            }
-        } else{
-            $error_message = "Oops! Algo deu errado com a consulta.";
-            // ... (resto da lógica de erro de execução) ...
-            if ($login_source == 'profile') {
-                $_SESSION["profile_login_error"] = $error_message;
             } else {
-                $_SESSION["login_error"] = $error_message;
+                // User not found
+                $error_message_user = "Usuário ou senha inválidos.";
+                $error_message_log = "User not found: " . $username;
+                handle_auth_error($error_message_user, $error_message_log, $login_source == "profile", $redirect_url_on_error);
             }
-            header("location: " . $redirect_url_on_error);
-            exit;
+        } else {
+            // Execute failed
+            $error_message_user = "Ocorreu um erro ao tentar autenticar. Tente novamente mais tarde.";
+            $error_message_log = "SQL execute error for user " . $username . ": " . $stmt->error;
+            handle_auth_error($error_message_user, $error_message_log, $login_source == "profile", $redirect_url_on_error);
         }
         $stmt->close();
     } else {
-         $error_message = "Erro ao preparar a consulta.";
-         // ... (resto da lógica de erro de preparação) ...
-         if ($login_source == 'profile') {
-            $_SESSION["profile_login_error"] = $error_message;
-        } else {
-            $_SESSION["login_error"] = $error_message;
-        }
-         header("location: " . $redirect_url_on_error);
-         exit;
+        // Prepare failed
+        $error_message_user = "Ocorreu um erro interno no servidor. Tente novamente mais tarde.";
+        $error_message_log = "SQL prepare error: " . $mysqli->error;
+        handle_auth_error($error_message_user, $error_message_log, $login_source == "profile", $redirect_url_on_error);
     }
     $mysqli->close();
 } else {
-    // ... (seu tratamento de erro para acesso inválido) ...
-    $error_message = "Acesso inválido ao script de autenticação.";
-    $redirect_url = "login.php"; 
-    if (isset($_POST['login_source']) && $_POST['login_source'] == 'profile_url' && !empty($username_for_redirect_on_error)) {
-        $_SESSION["profile_login_error"] = $error_message;
-        $redirect_url = "/" . urlencode($username_for_redirect_on_error);
-    } else {
-        $_SESSION["login_error"] = $error_message;
-    }
-    header("location: " . $redirect_url);
-    exit;
+    // Invalid request method or missing parameters
+    $error_message_user = "Acesso inválido ao script de autenticação.";
+    $error_message_log = "Invalid access to auth.php (Method: " . $_SERVER["REQUEST_METHOD"] . ", Params: " . http_build_query($_POST) . ")";
+    handle_auth_error($error_message_user, $error_message_log, $login_source == "profile", $redirect_url_on_error);
 }
 ?>

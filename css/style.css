@@ -371,3 +371,382 @@ animation: shake-button 0.5s ease-in-out, quick-pulse-button 0.6s ease-out;
 / Se quiser apenas uma: /
 / animation: shake-button 0.5s ease-in-out; /
 / animation: quick-pulse-button 0.6s ease-out; */
+
+
+/* === Estilos para Páginas de Autenticação (Login/Registro) === */
+
+/* Layout Geral da Página de Autenticação */
+body.auth-page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Garante altura total */
+    background-color: #f0f2f5;
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    justify-content: center; /* Centraliza verticalmente */
+    align-items: center;   /* Centraliza horizontalmente */
+    padding: 20px;
+}
+
+/* Área Principal de Conteúdo (Centralizada) */
+.auth-main-content-area {
+    flex-grow: 1; /* Ocupa espaço disponível se necessário, mas centraliza */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 380px; /* Define a largura máxima do container */
+}
+
+/* Container Principal (Login/Registro) */
+.auth-container {
+    background: #fff;
+    padding: 30px 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    text-align: center;
+    width: 100%; /* Ocupa a largura da área principal */
+}
+
+.auth-container img.logo {
+    width: 70px;
+    margin-bottom: 10px;
+}
+
+.auth-container h2.app-title {
+    margin-top: 0;
+    margin-bottom: 25px;
+    color: #333;
+    font-size: 1.8em;
+    font-weight: 700;
+}
+
+/* Grupos de Formulário */
+.auth-container .form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.auth-container .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+.auth-container .form-group input[type="text"],
+.auth-container .form-group input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+    /* box-sizing já está no reset global '*' */
+}
+
+/* Botões */
+.auth-container .btn-auth {
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    transition: background-color 0.3s ease;
+    font-weight: bold;
+}
+
+.auth-container .btn-login {
+    background-color: #007bff;
+}
+.auth-container .btn-login:hover {
+    background-color: #0056b3;
+}
+
+.auth-container .btn-register {
+    background-color: #28a745;
+}
+.auth-container .btn-register:hover {
+    background-color: #218838;
+}
+
+/* Mensagens de Erro/Sucesso */
+.auth-container .message-display { /* Classe unificada */
+    padding: 10px 15px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    font-size: 0.9em;
+    text-align: left;
+    border: 1px solid transparent;
+}
+.auth-container .error-message {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+.auth-container .success-message {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+
+/* Links (Registrar/Login) */
+.auth-container .auth-link {
+    margin-top: 20px;
+    font-size: 0.9em;
+}
+
+.auth-container .auth-link a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.auth-container .auth-link a:hover {
+    text-decoration: underline;
+}
+
+/* Footer com Efeito */
+.auth-footer {
+    position: fixed; /* Ou absolute se preferir relativo ao body */
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #bfbbbb;
+    font-size: 0.9em;
+    text-align: center;
+    width: 100%;
+    padding: 10px 0;
+    flex-shrink: 0;
+}
+
+.auth-footer .writing-effect {
+    color: #bfbbbb;
+    animation: writingAnimation 4s ease-in-out infinite alternate;
+}
+
+@keyframes writingAnimation {
+    from { opacity: 0.2; }
+    to   { opacity: 0.8; }
+}
+
+/* === Fim dos Estilos para Páginas de Autenticação === */
+
+
+
+/* === Media Queries para Responsividade === */
+
+/* Telas Médias (Tablets, etc.) - Ex: <= 768px */
+@media (max-width: 768px) {
+    /* Ajustes Gerais */
+    body {
+        font-size: 0.95rem; /* Leve redução no tamanho da fonte base */
+    }
+
+    /* Cabeçalho */
+    .main-header {
+        padding: 0 10px; /* Reduz padding horizontal */
+        min-height: 45px; /* Reduz altura mínima */
+    }
+    .main-header .logo-text {
+        font-size: 1.05em;
+    }
+    .user-info span {
+        display: none; /* Oculta o nome de usuário em telas menores */
+    }
+    .tab-nav {
+        margin: 0 10px; /* Reduz margem */
+    }
+    .tab-link {
+        padding: 0 12px 5px 12px; /* Reduz padding horizontal */
+        font-size: 0.85em;
+        gap: 5px;
+    }
+
+    /* Container Principal do Dashboard */
+    .tab-container {
+        width: 98%; /* Aumenta um pouco a largura */
+        margin: 0 auto 10px auto;
+    }
+
+    /* Navegação de Categorias e Notas */
+    .category-nav {
+        padding: 10px 5px; /* Ajusta padding */
+    }
+    .category-tab-button {
+        padding: 3px 6px;
+        font-size: 0.85em;
+    }
+    #add-category-btn {
+        padding: 4px 6px;
+    }
+    .notes-tab-nav {
+        padding: 4px 4px 0 4px;
+    }
+    .note-tab-button {
+        padding: 4px 6px 4px 8px;
+        font-size: 0.8em;
+        max-width: 140px;
+    }
+    #add-note-tab-btn {
+        padding: 4px 6px;
+        font-size: 0.8em;
+    }
+
+    /* Grid de Calculadoras */
+    .calculator-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Ajusta tamanho mínimo */
+        gap: 10px;
+        padding: 0 10px 10px 10px;
+    }
+    .calculator-card {
+        padding: 12px 15px;
+    }
+
+    /* Páginas de Autenticação */
+    .auth-main-content-area {
+        max-width: 340px; /* Reduz um pouco a largura máxima */
+    }
+    .auth-container {
+        padding: 25px 30px;
+    }
+    .auth-container h2.app-title {
+        font-size: 1.6em;
+    }
+    .auth-container .form-group input[type="text"],
+    .auth-container .form-group input[type="password"] {
+        padding: 10px;
+    }
+    .auth-container .btn-auth {
+        padding: 10px 15px;
+        font-size: 15px;
+    }
+}
+
+/* Telas Pequenas (Smartphones) - Ex: <= 480px */
+@media (max-width: 480px) {
+    /* Ajustes Gerais */
+    body {
+        font-size: 0.9rem;
+    }
+
+    /* Cabeçalho */
+    .main-header {
+        min-height: 40px;
+    }
+    .main-header .logo-image {
+        height: 25px;
+    }
+    .main-header .logo-text {
+        display: none; /* Oculta texto do logo em telas muito pequenas */
+    }
+    .tab-nav {
+        margin: 0 5px;
+    }
+    .tab-link {
+        padding: 0 8px 4px 8px;
+        font-size: 0.8em;
+        gap: 4px;
+    }
+    .tab-link i.fas {
+        font-size: 0.9em;
+    }
+    .user-info .btn-logout {
+        font-size: 0.7em;
+        padding: 2px 5px;
+    }
+
+    /* Container Principal do Dashboard */
+    .tab-container {
+        width: 100%;
+        margin: 0 0 5px 0;
+        border-radius: 0; /* Remove bordas arredondadas para ocupar tela inteira */
+        box-shadow: none; /* Remove sombra */
+        border: none;
+    }
+    .tab-content-wrapper {
+        border-radius: 0;
+    }
+    .tab-content h2 {
+        font-size: 1.2em;
+        padding: 10px;
+    }
+
+    /* Navegação de Categorias e Notas */
+    .category-nav {
+        padding: 8px 4px;
+    }
+    .category-tab-button {
+        padding: 2px 5px;
+        font-size: 0.8em;
+    }
+    .notes-tab-nav {
+        padding: 3px 3px 0 3px;
+    }
+    .note-tab-button {
+        padding: 3px 5px 3px 6px;
+        font-size: 0.75em;
+        max-width: 120px;
+    }
+    .close-note-btn {
+        width: 16px;
+        height: 16px;
+        font-size: 0.8em;
+    }
+    #add-note-tab-btn, #add-category-btn {
+        padding: 3px 5px;
+        font-size: 0.75em;
+    }
+    .note-editor {
+        font-size: 0.8rem;
+        padding: 10px;
+        min-height: 200px;
+    }
+
+    /* Grid de Calculadoras */
+    .calculator-grid {
+        grid-template-columns: 1fr; /* Uma coluna em telas pequenas */
+        gap: 8px;
+        padding: 0 5px 5px 5px;
+    }
+    .calculator-card {
+        padding: 10px 12px;
+        border-radius: 4px;
+    }
+    .calculator-card h3 {
+        font-size: 1em;
+    }
+
+    /* Páginas de Autenticação */
+    .auth-page {
+        padding: 10px;
+        justify-content: flex-start; /* Alinha ao topo em telas pequenas */
+        padding-top: 30px; /* Adiciona espaço no topo */
+    }
+    .auth-main-content-area {
+        max-width: 100%;
+    }
+    .auth-container {
+        padding: 20px;
+        box-shadow: none;
+        border: 1px solid #eee;
+    }
+    .auth-container img.logo {
+        width: 60px;
+    }
+    .auth-container h2.app-title {
+        font-size: 1.5em;
+        margin-bottom: 20px;
+    }
+    .auth-footer {
+        position: relative; /* Tira do fixed */
+        bottom: auto;
+        left: auto;
+        transform: none;
+        margin-top: 20px;
+        padding: 5px 0;
+    }
+}
+
+/* === Fim das Media Queries === */
